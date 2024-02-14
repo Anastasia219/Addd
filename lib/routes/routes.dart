@@ -1,4 +1,4 @@
-import 'dart:js';
+
 
 import 'package:flutter_job/pages/auth.dart';
 

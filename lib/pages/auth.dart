@@ -10,6 +10,46 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset('images/icon.png',
+          height: MediaQuery.of(context).size.height * 0.15,
+          width: MediaQuery.of(context).size.width *0.31 ,
+          fit: BoxFit.cover 
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+
+          
+          
+          const TextField(),
+          const TextField(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.06,
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: OutlinedButton(
+              onPressed: () {},
+              child: const Text('Войти'),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
+          ),
+          InkWell(
+            child: const Text(
+              'Нет аккаунта? Зарегистрируйся!',
+              style: TextStyle(color: Colors.white54),
+            ),
+            onTap: () {},
+          )
+        ],
+      ),
+    );
   }
 }

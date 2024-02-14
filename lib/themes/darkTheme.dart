@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_job/themes/colors.dart';
 
 ThemeData dark = ThemeData(
+  
+  scaffoldBackgroundColor: deepColor,
   appBarTheme: const AppBarTheme(
     centerTitle: true,
     backgroundColor: lightColor,
@@ -28,6 +30,8 @@ ThemeData dark = ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: ButtonStyle(
+      foregroundColor: const MaterialStatePropertyAll(Colors.white),
+      backgroundColor: const MaterialStatePropertyAll(buttonColor),
       shape: MaterialStatePropertyAll(borderButton),
     ),
   ),
@@ -38,8 +42,10 @@ ThemeData dark = ThemeData(
 
 RoundedRectangleBorder borderButton = const RoundedRectangleBorder(
   borderRadius: BorderRadius.all(
-    Radius.circular(
-      10,
-    ),
+    Radius.circular(10),
+
   ),
+  side:  BorderSide(
+      color:  Colors.white
+    )
 );
