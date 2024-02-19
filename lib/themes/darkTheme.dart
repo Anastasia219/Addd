@@ -6,13 +6,14 @@ ThemeData dark = ThemeData(
   scaffoldBackgroundColor: deepColor,
   appBarTheme: const AppBarTheme(
     centerTitle: true,
-    backgroundColor: lightColor,
+    backgroundColor: buttonColor,
     titleTextStyle: TextStyle(
       color: Colors.white,
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: lightColor,
+    backgroundColor: buttonColor,
+    selectedItemColor: Color.fromARGB(255, 223, 103, 139)
   ),
   cardTheme: const CardTheme(
     color: lightColor2,
