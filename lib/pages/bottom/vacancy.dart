@@ -21,7 +21,6 @@ class VacancyPage extends StatelessWidget {
                   const Divider(
                     color: Colors.white,
                   )
-
                 ],
 
               ),
@@ -31,7 +30,7 @@ class VacancyPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Дата публикации"),
+                  const Text("Дата публикации"),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.25,
                   ),

@@ -33,14 +33,23 @@ class _HomePageState extends State<HomePage> {
         color: Colors.white38
     ),),),
     actions: [
+      IconButton(onPressed: () {},color: const Color.fromARGB(255, 199, 199, 199) ,icon: const Icon(Icons.tune)),
       IconButton(onPressed: (){
         setState(() {
           search = true;
         });
-      },  icon: const  Icon(Icons.cancel, color: Colors.white,))
+      },  icon: const  Icon(Icons.cancel, color: Colors.white,)),
+      
     ],
   );
   AppBar appBar =AppBar(
+    leading: IconButton(
+      icon: const Icon(Icons.exit_to_app),
+      color: Colors.white,
+      onPressed: () {
+        Navigator.popAndPushNamed(context, '/');
+      },
+    ),
     title: Text(title!),
     actions: [
       IconButton(onPressed: (){
