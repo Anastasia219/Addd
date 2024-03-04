@@ -1,5 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_job/database/firebaseAuth/users_services.dart';
 import 'package:flutter_job/pages/bottom/profile.dart';
 import 'package:flutter_job/pages/bottom/responses.dart';
 import 'package:flutter_job/pages/bottom/vacancy.dart';
@@ -19,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+    AuthService _authService = AuthService();
     AppBar appBarSearch = AppBar(
     title:  const TextField( 
       cursorColor: Colors.white,
@@ -26,7 +29,7 @@ class _HomePageState extends State<HomePage> {
       color: Colors.white
     ),
     decoration: InputDecoration(
-      focusedBorder: UnderlineInputBorder(borderSide: const BorderSide(color: Colors.white)),
+      focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
       prefixIcon: Icon(Icons.search, color: Colors.white,),
       hintText: 'search...',
       hintStyle: TextStyle(
@@ -46,7 +49,8 @@ class _HomePageState extends State<HomePage> {
     leading: IconButton(
       icon: const Icon(Icons.exit_to_app),
       color: Colors.white,
-      onPressed: () {
+      onPressed: ()async {
+       await _authService.logOut();
         Navigator.popAndPushNamed(context, '/');
       },
     ),

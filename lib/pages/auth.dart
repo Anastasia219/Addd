@@ -1,4 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_job/database/firebaseAuth/users_services.dart';
+import 'package:toast/toast.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -8,8 +12,13 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
+  bool visibility = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  AuthService authService = AuthService(); 
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     return Scaffold(
       body: Center(
         child: Column(
@@ -25,6 +34,7 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextField(
+                controller: emailController,
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
@@ -51,14 +61,22 @@ class _AuthPageState extends State<AuthPage> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: TextField(
-                obscureText: true,
+                controller: passController,
+                obscureText: !visibility,
                 style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
+                    onPressed: () {
+                      setState(() {
+                        visibility = !visibility;
+                      });
+                    },
+                    icon: !visibility? const Icon(
                       Icons.visibility,
+                      color: Colors.white70,
+                    ):const Icon(
+                      Icons.visibility_off,
                       color: Colors.white70,
                     ),
                   ),
@@ -86,7 +104,22 @@ class _AuthPageState extends State<AuthPage> {
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.5,
               child: OutlinedButton(
-                onPressed: () => Navigator.popAndPushNamed(context, '/home'),
+                onPressed: () async {
+                  if(emailController.text.isEmpty || passController.text.isEmpty){
+                    Toast.show("Заполни сука");
+                  }
+                  else{
+                    var user = await authService.signIn(emailController.text, passController.text);
+                    if( user == null){
+                      Toast.show("...НЕВЕРНО...");
+
+                    }
+                    else{
+                      Navigator.popAndPushNamed(context, '/');
+                      Toast.show('Вы вошли!');
+                    }
+                  }
+                },
                 child: const Text('Войти'),
               ),
             ),

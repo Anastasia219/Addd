@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_job/themes/colors.dart';
 
 class Responses extends StatelessWidget {
   const Responses({super.key});

@@ -34,6 +34,7 @@ class VacancyPage extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.25,
                   ),
+                  // ignore: prefer_const_constructors
                   OutlinedButton(onPressed: () {}, child: Text("Откликнуться"))
                 ],
               )

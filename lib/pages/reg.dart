@@ -1,4 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_job/database/firebaseAuth/users_services.dart';
+import 'package:flutter_job/database/firebaseFirestore/ProfileCollection.dart';
+import 'package:toast/toast.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -8,8 +13,17 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController patronymicController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  AuthService authService = AuthService();
+  ProfileCollection profileCollection = ProfileCollection();
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registration'),
@@ -18,22 +32,22 @@ class _RegistrationPageState extends State<RegistrationPage> {
           icon: const Icon(Icons.arrow_left_outlined, color: Colors.white),
         ),
       ),
-      body:   SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Center(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height:  40,
+              height: 40,
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                
-                style: TextStyle(color: Colors.white),
+              child: TextField(
+                controller: surnameController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
@@ -56,10 +70,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
+              child: TextField(
+                controller: nameController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
@@ -82,10 +97,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
+              child: TextField(
+                controller: patronymicController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
@@ -108,10 +124,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
+              child:  TextField(
+                controller: phoneController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
@@ -134,10 +151,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
+              child: TextField(
+                controller: emailController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
@@ -160,14 +178,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const TextField(
-                style: TextStyle(color: Colors.white),
+              child:  TextField(
+                controller: passwordController,
+                style: const TextStyle(color: Colors.white),
                 cursorColor: Colors.white,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                       borderSide: BorderSide(color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(
+                  // ignore: unnecessary_const
+                  enabledBorder: const OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     borderSide: BorderSide(color: Colors.white),
                   ),
@@ -183,11 +203,39 @@ class _RegistrationPageState extends State<RegistrationPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-             SizedBox(
+            SizedBox(
               height: 50,
               width: 250,
               child: OutlinedButton(
-                onPressed: () => Navigator.popAndPushNamed(context, '/'),
+                onPressed: () async {
+                  if (nameController.text.isEmpty ||
+                      surnameController.text.isEmpty ||
+                      patronymicController.text.isEmpty ||
+                      emailController.text.isEmpty ||
+                      phoneController.text.isEmpty ||
+                      passwordController.text.isEmpty) {
+                        Toast.show('...Ты кто такой!!?...');
+                      }
+                      else{
+                        var user = await authService.signUp(emailController.text, passwordController.text);
+                        if(user == null){
+                          Toast.show("Проверьте правильность данных!");
+
+                        }
+                        else{
+                          await profileCollection.addProfile(user.id!,
+                           surnameController.text,
+                            nameController.text,
+                            patronymicController.text,
+                            phoneController.text, 
+                            emailController.text,
+                            passwordController.text,
+                            '');
+                            Toast.show("Вы зарегистрировались!");
+                            Navigator.popAndPushNamed(context, '/');
+                        }
+                      }
+                },
                 child: const Text('Зарегистрироваться'),
               ),
             ),
@@ -200,7 +248,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 style: TextStyle(color: Colors.white54),
               ),
               onTap: () => Navigator.popAndPushNamed(context, '/'),
-            )],
+            )
+          ],
         )),
       ),
     );
