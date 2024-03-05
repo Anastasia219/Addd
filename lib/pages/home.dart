@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_job/database/firebaseAuth/users_services.dart';
@@ -64,6 +64,8 @@ class _HomePageState extends State<HomePage> {
     ],
   );
     return Scaffold(
+      floatingActionButton: index ==2? FloatingActionButton(onPressed: () {},
+      child: Icon(Icons.add, color: Colors.white,),) : null,
       appBar: search? appBar : appBarSearch,
       body: pages.elementAt(index),
       bottomNavigationBar: BottomNavigationBar(
